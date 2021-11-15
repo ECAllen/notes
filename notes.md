@@ -253,6 +253,7 @@ remote - executes on remote server
 can happen at creation or destruction
 
 example file provisioner with heredoc syntax:
+
 ```json
 provisioner "file" {
   content = <<EOF
@@ -278,6 +279,7 @@ resource "random_integer" "rand"{
 
 merge() - takes two maps and merges them.
 
+ 
 ### CLI
 
 terraform init
@@ -286,10 +288,12 @@ terraform plan
 
 terraform apply
 
+### variables
 
+precedence: env, file, command line
 
 # Books
-   
+
 ## Optionality 
 
 Optionality = the right but not the obligation to take action.
@@ -335,3 +339,102 @@ Externally owned accounts are those that have a private key; having the private 
 A contract account has smart contract code, which a simple EOA can’t have. Furthermore, a contract account does not have a private key. Instead, it is owned (and controlled) by the logic of its smart contract code: the software program recorded on the Ethereum blockchain at the contract account’s creation and executed by the EVM.
 
 account addresses are derived directly from private keys: a private key uniquely determines a single Ethereum address, also known as an account.
+
+### Cryptography
+
+There is no encryption as part of the Ethereum protocol—all messages that are sent as part of the operation of the Ethereum network can (necessarily) be read by everyone. As such, private keys are only used to create digital signatures for transaction authentication.
+
+Starting with a private key in the form of a randomly generated number k, we multiply it by a predetermined point on the curve called the generator point G to produce another point somewhere else on the curve, which is the corresponding public key K:
+K = k * G 
+
+the generator point is always the same for all Ethereum users
+
+Ethereum only uses uncompressed public keys; therefore the only prefix that is relevant is (hex) 04.
+
+The test most commonly used for a hash function is the empty input. If you run the hash function with an empty string as input you should see the following results:
+
+Keccak256("") =
+  c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+
+SHA3("") =
+  a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a
+
+Ethereum uses Keccak-256, even though it is often called SHA-3 in the code.
+
+Ethereum addresses are unique identifiers that are derived from public keys or contracts using the Keccak-256 one-way hash function.
+
+
+We use Keccak-256 to calculate the hash of this public key:
+
+Keccak256(K) = 2a5bc342ed616b5ba5732269001d3f1ef827552ae1114027bd3ecf1f086ba0f9
+
+Then we keep only the last 20 bytes (least significant bytes), which is our Ethereum address:
+
+001d3f1ef827552ae1114027bd3ecf1f086ba0f9
+
+
+### Wallet
+
+
+### Transactions
+
+A transaction is a serialized binary message that contains the following data:
+
+Nonce
+
+    A sequence number, issued by the originating EOA, used to prevent message replay
+
+Gas price
+
+    The amount of ether (in wei) that the originator is willing to pay for each unit of gas
+
+Gas limit
+
+    The maximum amount of gas the originator is willing to buy for this transaction
+
+Recipient
+
+    The destination Ethereum address
+
+Value
+
+    The amount of ether (in wei) to send to the destination
+
+Data
+
+    The variable-length binary data payload
+
+v,r,s
+
+    The three components of an ECDSA digital signature of the originating EOA
+
+### Smart Contracts and Solidity
+
+Computer programs
+
+    Smart contracts are simply computer programs. The word “contract” has no legal meaning in this context.
+
+Immutable
+
+    Once deployed, the code of a smart contract cannot change. Unlike with traditional software, the only way to modify a smart contract is to deploy a new instance.
+
+Deterministic
+
+    The outcome of the execution of a smart contract is the same for everyone who runs it, given the context of the transaction that initiated its execution and the state of the Ethereum blockchain at the moment of execution.
+
+EVM context
+
+    Smart contracts operate with a very limited execution context. They can access their own state, the context of the transaction that called them, and some information about the most recent blocks.
+
+Decentralized world computer
+
+    The EVM runs as a local instance on every Ethereum node, but because all instances of the EVM operate on the same initial state and produce the same final state, the system as a whole operates as a single "world compute
+    
+
+#### Lifecycle
+
+0x0    special contract creation address
+
+contracts only run if they are called by a transaction
+
+contracts are atomic 
