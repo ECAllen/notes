@@ -1,15 +1,17 @@
-# Notes
 
-## Ideas and Slogans
+
+## Beeswax 
+
+### Ideas and Slogans
 
 Simple tools for complex interactions
 
-```shell: 
+Tools over process
 
-go get -u ./...
+## vim
 
-```
-
+format a file
+gg =G
 
 ## Doom Emacs
 
@@ -17,7 +19,17 @@ go get -u ./...
 
 create file spc-. then type filename
 
-## Pandoc
+open neotree: SPC-o-p 
+
+
+## Golang
+
+```shell: 
+
+go get -u ./...
+
+```
+
 
 ## Python
 
@@ -292,6 +304,7 @@ terraform apply
 
 precedence: env, file, command line
 
+
 # Books
 
 ## Optionality 
@@ -315,6 +328,33 @@ lexer - reduces to tokens
 
 ast - abstract syntax tree
 
+## ECDSA
+
+https://www.instructables.com/Understanding-how-ECDSA-protects-your-data/
+
+Allows verification of authenticity without compromising security. It is impossible to forge a signature. It does no encrypt the data but ensures it is not tampered with.
+
+Algo (high level)
+    
+    choose random point on curve, point of origin
+    
+    generate a random number, private keys
+    
+    apply equation to private key and point of origin, public key
+   
+Sign the file
+    
+    equation(use the private key, with a hash of the file), signature
+
+    signature is divided into R and S
+    
+Verification
+
+    equation(S, public key) == R
+    
+
+ECDSA uses SHA1 hashes
+    
 
 ## Mastering Bitcoin
 
@@ -331,6 +371,26 @@ UTXO - unspent transactions database
 ### Constructing a transaction
 
 ## (Ethereum Book)[https://github.com/ethereumbook/ethereumbook]
+
+## Fallback functions
+
+It is called when a non-existent function is called on the contract.
+
+It is required to be marked external.
+
+It has no name.
+
+It has no arguments
+
+It can not return any thing.
+
+It can be defined one per contract.
+
+If not marked payable, it will throw exception if contract receives plain ether without data.
+
+Solidity fallback function:
+
+It has no name, no arguments, no return values. It external and payable. Defined once. Called when non-existent function called. 
 
 ### EOA vs. Contract Accounts
 
@@ -438,3 +498,171 @@ Decentralized world computer
 contracts only run if they are called by a transaction
 
 contracts are atomic 
+
+To delete a contract, you execute an EVM opcode called SELFDESTRUCT. That operation costs “negative gas,” a gas refund, thereby incentivizing the release of network client resources from the deletion of stored state. 
+
+#### Solidity 
+
+function syntax:
+
+function FunctionName([parameters]) {public|private|internal|external}
+[pure|view|payable] [modifiers] [returns (return types)]
+
+
+#### Gas
+
+estimating gas cost:
+
+var contract = web3.eth.contract(abi).at(address);
+var gasEstimate = contract.myAweSomeMethod.estimateGas(arg1, arg2,
+    {from: account});
+    
+
+To obtain the gas price from the network you can use:
+
+var gasPrice = web3.eth.getGasPrice();
+
+And from there you can estimate the gas cost:
+
+var gasCostInEther = web3.utils.fromWei((gasEstimate * gasPrice), 'ether');
+
+### Security 
+
+#### Re-entrency
+
+This type of attack can occur when a contract sends ether to an unknown address. An attacker can carefully construct a contract at an external address that contains malicious code in the fallback function. 
+
+##### prevention
+
+The first is to (whenever possible) use the built-in transfer function when sending ether to external contracts.
+
+The second technique is to ensure that all logic that changes state variables happens before ether is sent out of the contract (or any external call).
+
+A third technique is to introduce a mutex.
+
+#### over flow under flow
+
+##### prevention
+
+The current conventional technique to guard against under/overflow vulnerabilities is to use or build mathematical libraries that replace the standard math operators addition, subtraction, and multiplication (division is excluded as it does not cause over/underflows and the EVM reverts on division by 0).
+
+### Tokens
+
+#### Interface
+
+ERC20 
+
+The ERC20 Interface in Solidity:
+
+```solidity
+
+contract ERC20 {
+   function totalSupply() constant returns (uint theTotalSupply);
+   function balanceOf(address _owner) constant returns (uint balance);
+   function transfer(address _to, uint _value) returns (bool success);
+   function transferFrom(address _from, address _to, uint _value) returns
+      (bool success);
+   function approve(address _spender, uint _value) returns (bool success);
+   function allowance(address _owner, address _spender) constant returns
+      (uint remaining);
+   event Transfer(address indexed _from, address indexed _to, uint _value);
+   event Approval(address indexed _owner, address indexed _spender, uint _value);
+}
+
+```
+
+data structures
+
+mapping(address => uint256) balances;
+
+mapping (address => mapping (address => uint256)) public allowed;
+
+#### Workflows
+
+1) transfer - wallet to wallet direct transfer of tokens, uses the 'transfer' function
+
+2) approve and transfer - two transaction
+
+
+## Buildspace Solana project
+
+program: 
+
+    a) piece of code that lives on the blockchain
+
+    b) programs are stateless
+    
+    c) programs interact with accounts for data
+    
+accounts
+
+    a) stores data
+    
+    b) users can have 1,000s of accounts 
+    
+Configuring Solana
+
+    Install rust
+    https://doc.rust-lang.org/book/ch01-01-installation.html
+    
+    Install Solana: https://docs.solana.com/cli/install-solana-cli-tools#use-solanas-install-tool
+    
+    set Solana network to localhost
+    ```bash
+solana config set --url localhost 
+    ```
+   
+   
+   start a local Solana node
+   ```bash
+solana-test-validator 
+   ```
+   
+   Install mocha, anchor, npm anchor, npm solana/web3.js
+   
+  ```bash
+
+npm install -g mocha
+
+cargo install --git https://github.com/project-serum/anchor anchor-cli --locked
+  
+npm install @project-serum/anchor @solana/web3.js
+  
+  ``` 
+    
+    
+   Create a project
+   
+   ```bash
+
+anchor init myproject --javascript 
+
+```
+   
+   Generate local Solana wallet
+   
+   ```bash
+
+solana-keygen new
+
+```
+   
+   Get public key for local wallet
+   
+   ```bash
+
+solana address
+
+    ```
+
+    airdrop sol 
+    
+    ```bash
+
+solana airdrop 5 93SAmhpBneKq6UybsFbn5gf9kzAcooCz732bGaGiBehg  --url https://api.devnet.solana.com
+
+```
+
+
+
+
