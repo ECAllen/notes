@@ -15,11 +15,20 @@ gg =G
 
 ## Doom Emacs
 
+### Projectile
+
+M-x projectile-discover-in-directory
+
 ### Dired
 
 create file spc-. then type filename
 
 open neotree: SPC-o-p 
+
+### Buffers and windows
+
+buffers - hold data, usually file
+
 
 
 ## Golang
