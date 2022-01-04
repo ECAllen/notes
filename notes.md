@@ -1,8 +1,8 @@
+## About this dump file
 
+A co-worker of mine used to keep all his notes in one large notepad file. He literally used Windows notepad. Then when he needed to check his notes, he would simply do keyword searches on the file. It went back years and proved to be a better reference than a fancy knowledge base. This file is a similar dump for myself. It includes everything I read, notes and cheatsheets. Organized with markdown but may move for emacs org mode format in the future. Creative commons license.  
 
-## Beeswax 
-
-### Ideas and Slogans
+## Ideas and Slogans
 
 Simple tools for complex interactions
 
@@ -28,8 +28,6 @@ open neotree: SPC-o-p
 ### Buffers and windows
 
 buffers - hold data, usually file
-
-
 
 ## Golang
 
@@ -672,6 +670,176 @@ solana airdrop 5 93SAmhpBneKq6UybsFbn5gf9kzAcooCz732bGaGiBehg  --url https://api
 
 ```
 
+# React
+
+  * [ ] https://scrimba.com/learn/learnreact
+
+
+global var ReactDOM
+
+```javascript
+
+ReactDOM.render(<h1>Hello</h1>, document.getElementById("root"))
+
+```
+
+## Components
+
+Pascal case component, not camel case
+
+Wrap it in angle brackets in ReactDOM.render()
+
+Components can have parent child relationship
+
+```javascript
+
+function Navbar() {
+    return (
+       <div></div> 
+    )
+}
+
+function MainContent() {
+    return (
+        <div></div>
+    )
+}
+
+ReactDOM.render(
+    <div>
+        <Navbar />
+        <MainContent />
+    </div>,
+    document.getElementById("root")
+)
 
 
 
+```
+
+
+
+## JSX
+
+Like html with some differences.
+
+    html => JSX 
+
+    class => className
+    
+    
+## organization
+
+create a react project
+
+```javascript
+
+npx create-react-app hello
+
+```
+
+Use import and export from ES6
+
+## Props
+
+Use mustache syntax
+
+
+```javascript
+
+import React from "react"
+import ReactDOM from "react-dom"
+
+function App() {
+    const userName = "me"
+    
+    return (
+        <h1>Hello {userName} !</h1>
+    )
+}
+
+ReactDOM.render(<App />, document.getElementById("root"))
+
+```
+
+```javascript
+
+// Somewhat bogus example
+
+export default function Contact(props) {
+    return (
+        <div className="contact-card">
+            <img src={props.image}/>
+            <h3>{props.name}</h3>
+            <div className="info-group">
+                <p>{props.phone}</p>
+            </div>
+            <div className="info-group">
+                <img src="./images/mail-icon.png" />
+                <p>{props.email}</p>
+            </div>
+        </div>
+    )
+}
+
+function App() {
+    return (
+        <div className="contacts">
+            <Contact 
+                image="./images/mr-whiskerson.png" 
+                name="Mr. Whiskerson"
+                phone="(212) 555-1234"
+                email="mr.whiskaz@catnap.meow"
+            />
+            <Contact 
+                img="./images/fluffykins.png"
+                name="Fluffykins"
+                phone="(212) 555-2345"
+                email="fluff@me.com"
+            />
+        </div>
+    )
+}
+
+```
+
+## Props and arrays
+
+```javascript
+
+// contrived example from scrimba
+
+jokesData = [
+    {
+        setup: "I got my daughter a fridge for her birthday.",
+        punchline: "I can't wait to see her face light up when she opens it."
+    },
+    {
+        setup: "How did the hacker escape the police?",
+        punchline: "He just ransomware!"
+    }
+]
+
+export default function Joke(props) {
+    return (
+        <div>
+            {props.setup && <h3>Setup: {props.setup}</h3>}
+            <p>Punchline: {props.punchline}</p>
+            <hr />
+        </div>
+    )
+}
+
+export default function App() {
+    const jokeElements = jokesData.map(joke => {
+        return <Joke setup={joke.setup} punchline={joke.punchline} />
+    })
+    return (
+        <div>
+            {jokeElements}
+        </div>
+    )
+}
+
+
+```
