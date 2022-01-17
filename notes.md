@@ -13,6 +13,10 @@ Tools over process
 format a file
 gg =G
 
+indent
+visual select
+< or >
+
 ## Doom Emacs
 
 ### Projectile
@@ -615,12 +619,14 @@ Configuring Solana
     Install Solana: https://docs.solana.com/cli/install-solana-cli-tools#use-solanas-install-tool
     
     set Solana network to localhost
+
     ```bash
 solana config set --url localhost 
     ```
    
    
    start a local Solana node
+
    ```bash
 solana-test-validator 
    ```
@@ -672,7 +678,7 @@ solana airdrop 5 93SAmhpBneKq6UybsFbn5gf9kzAcooCz732bGaGiBehg  --url https://api
 
 # React
 
-  * [ ] https://scrimba.com/learn/learnreact
+https://scrimba.com/learn/learnreact
 
 
 global var ReactDOM
@@ -841,5 +847,121 @@ export default function App() {
     )
 }
 
+```
+
+
+## Events
+
+Do not use the "()" for function call in the JSX
+
+```javascript
+
+import React from "react"
+
+export default function App() {
+    function handleClick() {
+        console.log("I was clicked!")
+    }
+    
+    function handleOnMouseOver() {
+        console.log("MouseOver")
+    }
+    
+    return (
+        <div className="container">
+            <img 
+                src="https://picsum.photos/640/360" 
+                onMouseOver={handleOnMouseOver} 
+            />
+            <button onClick={handleClick}>Click me</button>
+        </div>
+    )
+}
+
 
 ```
+
+## State 
+
+React.useState()
+
+```javascript
+
+const [someval,setterFunc] = React.useState(someInitVal)
+
+```
+
+
+## useEffects
+
+used for side effects ie API calls
+
+
+# react-three-fiber
+
+
+https://github.com/pmndrs/react-three-fiber
+
+https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
+
+## Basics
+
+scene -> camera -> renderer -> attach to canvas
+
+geometry -> mesh -> scene.add()
+
+frustum - A frustum is the name of a 3d shape that is like a pyramid with the tip sliced off. In other words think of the word "frustum" as another 3D shape like sphere, cube, prism, frustum.
+
+mesh = geometry + material + orientation
+
+
+Example set camera width to canvas 
+
+```javascript
+
+    function render(time) {
+      time *= 0.001;
+     
+      const canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+     
+      ...
+
+```
+
+
+### Create app
+```bash
+npx create-react-app my-app
+cd my-app
+```
+
+### Install dependencies
+```bash
+npm install three @react-three/fiber
+
+npm install --save husky lint-staged prettier
+```
+
+### Start
+```bash
+npm run start
+```
+
+
+# Node.js
+
+## cheatsheet
+
+```bash
+
+# initialize minimum node project with a minimal package.json
+npm init -y 
+
+# install a package 
+npm i <some package> 
+npm i express 
+
+```
+
