@@ -1,12 +1,34 @@
-## About this dump file
+# Zettelkasten
 
 A co-worker of mine used to keep all his notes in one large notepad file. He literally used Windows notepad. Then when he needed to check his notes, he would simply do keyword searches on the file. It went back years and proved to be a better reference than a fancy knowledge base. This file is a similar dump for myself. It includes everything I read, notes and cheatsheets. Organized with markdown but may move for emacs org mode format in the future. Creative commons license.  
 
+# Misc
+
 ## Ideas and Slogans
+
+https://slife.org/japanese-proverbs/
+
+成功する事よりも、失敗しない事の方が重要だ。- Seikou suru koto yori mo, shippai shinai koto no hou ga juuyou da.
+
+Meaning: It’s more important to not fail than to succeed.
+
+
+
+“I constantly see people rise in life who are not the smartest, sometimes not even the most diligent, but they are learning machines. They go to bed every night a little wiser than they were when they got up and boy does that help, particularly when you have a long run ahead of you.”
+― Charles T. Munger 
+
 
 Simple tools for complex interactions
 
+
 Tools over process
+
+
+Reality captured in user friendly symbols and processed for understanding. 
+― Slogan for the idea channel
+
+
+# Editors 
 
 ## vim
 
@@ -33,9 +55,12 @@ open neotree: SPC-o-p
 
 buffers - hold data, usually file
 
+
+# Programming 
+
 ## Golang
 
-```shell: 
+```bash
 
 go get -u ./...
 
@@ -59,21 +84,25 @@ id(<var>) - location in memory
 type(<var>)
 
 mutable - dict,list
+
 immutable - strings tuples, integers *reassignment changes identity
 
-Dunder methods - Double UNDERscore methods __add__ or magic methods
+Dunder methods - Double UNDERscore methods "__add__" or magic methods
 
 help(object.method)
 
 coerce booleans
+
 ex.
+
 bool(0) -> False
+
 bool(4) -> True
 
-
 singleton - one copy, example None
-ex.
-```python:
+
+
+```python
 
 a = None
 b = None
@@ -220,18 +249,336 @@ python manage.py sqlmigrate <migration>
 python manage.py createsuperuser
 
 
-#### Meta
-
-
-
-
-
 #### Files
 
 settings.py - INSTALLED_APPS[] list of apps
 
 urls.py - routing
 
+# React
+
+https://scrimba.com/learn/learnreact
+
+
+global var ReactDOM
+
+```javascript
+
+ReactDOM.render(<h1>Hello</h1>, document.getElementById("root"))
+
+```
+
+
+## Components
+
+All React components must act like pure functions with respect to their props.
+
+Pascal case component, not camel case
+
+Wrap it in angle brackets in ReactDOM.render()
+
+Components can have parent child relationship
+
+```javascript
+
+function Navbar() {
+    return (
+       <div></div> 
+    )
+}
+
+function MainContent() {
+    return (
+        <div></div>
+    )
+}
+
+ReactDOM.render(
+    <div>
+        <Navbar />
+        <MainContent />
+    </div>,
+    document.getElementById("root")
+)
+
+
+
+```
+
+
+## JSX
+
+Like html with some differences.
+
+    html => JSX 
+
+    class => className
+    
+    
+## organization
+
+create a react project
+
+```javascript
+
+npx create-react-app hello
+
+```
+
+add a router
+
+```bash
+
+npm install react-router-dom@6
+
+```
+
+install material ui: https://mui.com/getting-started/installation/
+
+## Props
+
+Use mustache syntax
+
+
+```javascript
+
+import React from "react"
+import ReactDOM from "react-dom"
+
+function App() {
+    const userName = "me"
+    
+    return (
+        <h1>Hello {userName} !</h1>
+    )
+}
+
+ReactDOM.render(<App />, document.getElementById("root"))
+
+```
+
+```
+
+// Somewhat bogus example
+
+export default function Contact(props) {
+    return (
+        <div className="contact-card">
+            <img src={props.image}/>
+            <h3>{props.name}</h3>
+            <div className="info-group">
+                <p>{props.phone}</p>
+            </div>
+            <div className="info-group">
+                <img src="./images/mail-icon.png" />
+                <p>{props.email}</p>
+            </div>
+        </div>
+    )
+}
+
+function App() {
+    return (
+        <div className="contacts">
+            <Contact 
+                image="./images/mr-whiskerson.png" 
+                name="Mr. Whiskerson"
+                phone="(212) 555-1234"
+                email="mr.whiskaz@catnap.meow"
+            />
+            <Contact 
+                img="./images/fluffykins.png"
+                name="Fluffykins"
+                phone="(212) 555-2345"
+                email="fluff@me.com"
+            />
+        </div>
+    )
+}
+
+```
+
+## Props and arrays
+
+```javascript
+
+// contrived example from scrimba
+
+jokesData = [
+    {
+        setup: "I got my daughter a fridge for her birthday.",
+        punchline: "I can't wait to see her face light up when she opens it."
+    },
+    {
+        setup: "How did the hacker escape the police?",
+        punchline: "He just ransomware!"
+    }
+]
+
+export default function Joke(props) {
+    return (
+        <div>
+            {props.setup && <h3>Setup: {props.setup}</h3>}
+            <p>Punchline: {props.punchline}</p>
+            <hr />
+        </div>
+    )
+}
+
+export default function App() {
+    const jokeElements = jokesData.map(joke => {
+        return <Joke setup={joke.setup} punchline={joke.punchline} />
+    })
+    return (
+        <div>
+            {jokeElements}
+        </div>
+    )
+}
+
+```
+
+
+## Events
+
+Do not use the "()" for function call in the JSX
+
+```javascript
+
+import React from "react"
+
+export default function App() {
+    function handleClick() {
+        console.log("I was clicked!")
+    }
+    
+    function handleOnMouseOver() {
+        console.log("MouseOver")
+    }
+    
+    return (
+        <div className="container">
+            <img 
+                src="https://picsum.photos/640/360" 
+                onMouseOver={handleOnMouseOver} 
+            />
+            <button onClick={handleClick}>Click me</button>
+        </div>
+    )
+}
+
+
+```
+
+## State 
+
+React.useState()
+
+```javascript
+
+const [someval,setterFunc] = React.useState(someInitVal)
+
+```
+
+Converting a Function to a Class
+
+You can convert a function component like Clock to a class in five steps:
+
+    1) Create an ES6 class, with the same name, that extends React.Component.
+
+    2) Add a single empty method to it called render().
+
+    3) Move the body of the function into the render() method.
+
+    4) Replace props with this.props in the render() body.
+
+    5) Delete the remaining empty function declaration.
+
+## (Lifecycle)[https://reactjs.org/docs/state-and-lifecycle.html]
+
+In applications with many components, it’s very important to free up resources taken by the components when they are destroyed.
+
+We want to set up a timer whenever the Clock is rendered to the DOM for the first time. This is called “mounting” in React.
+
+We also want to clear that timer whenever the DOM produced by the Clock is removed. This is called “unmounting” in React.
+
+## useEffects
+
+used for side effects ie API calls
+
+## react-three-fiber
+
+https://github.com/pmndrs/react-three-fiber
+
+https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
+
+### Basics
+
+scene -> camera -> renderer -> attach to canvas
+
+geometry -> mesh -> scene.add()
+
+frustum - A frustum is the name of a 3d shape that is like a pyramid with the tip sliced off. In other words think of the word "frustum" as another 3D shape like sphere, cube, prism, frustum.
+
+mesh = geometry + material + orientation
+
+
+Example set camera width to canvas 
+
+```javascript
+
+    function render(time) {
+      time *= 0.001;
+     
+      const canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+     
+      ...
+
+```
+
+
+### Create app
+```bash
+npx create-react-app my-app
+cd my-app
+```
+
+### Install dependencies
+```bash
+npm install three @react-three/fiber
+
+npm install --save husky lint-staged prettier
+```
+
+### Start
+```bash
+npm run start
+```
+
+
+## Node.js
+
+## cheatsheet
+
+```bash
+
+## initialize minimum node project with a minimal package.json
+npm init -y 
+
+## install a package 
+npm i <some package> 
+npm i express 
+
+```
+
+
+# DevOps
+
+## AntiPattern
+
+nanoservices - a service whose overhead outweighs it's utility
 
 ## Terraform
 
@@ -239,13 +586,15 @@ urls.py - routing
 
 block template:
 
-```json
+```
+
 block_type label_one label_two {
     key = value
     embedded_block {
         key = value
     }
 }
+
 ```
 
 
@@ -277,7 +626,8 @@ can happen at creation or destruction
 
 example file provisioner with heredoc syntax:
 
-```json
+```
+
 provisioner "file" {
   content = <<EOF
 access_key = 
@@ -285,17 +635,20 @@ secret_key =
 EOF
   destination = "/home/aws-user/.s3cfg"
 }
+
 ```
 
 ### Resources
 
 example random int
 
-```json
+```
+
 resource "random_integer" "rand"{
     min = 10000
     max = 99999
 }
+
 ```
 
 ### Functions
@@ -316,14 +669,116 @@ terraform apply
 precedence: env, file, command line
 
 
-# Books
+### Environments
+
+use workspaces as recommended by Hasihcorp
+
+```bash
+
+terraform workspace new Developement
+
+terrform plan -out dev.tfplan
+
+terrform apply "dev.tfpaln"
+
+
+```
+
+use vars from workspace
+
+```javascript
+
+locals {
+    env_name = lower(terrform.workspace)
+
+    common_tags = {
+        Environment = local.env_name
+    }
+}
+
+```
+
+### Secrets
+
+3 options: varibales file, env var, secrets management
+
+use env vars for credentials by simply exporting and referencing them
+
+### Modules
+
+```javascript
+
+module "bucket" {
+    name = "some-bucket"
+    source = ".\\Modules\somefiles"
+}
+
+resource "aws_s3_bucket_object" {
+    bucket = module.bucket.bucket_id
+    [...]
+}
+
+```
+
+registry.terraform.io
+
+
+## GCP
+
+### Serverless/Compute Services
+
+code and deploy without need to worry about infra and scale
+
+only available for node.js and python as of 4/7/22
+
+### App Engine
+
+PAAS - good for web apps
+
+supports more languages than Compute Services 
+
+
+### Cloud SQL
+
+Postgres and MySQL
+
+### Persistent Disks
+
+== s3
+
+block storage
+
+16 persistent disks
+
+
+### File store
+
+== NAS
+
+
+### Bigtable
+
+### Cloud Storage
+
+blob storage
+
+### Cloud Spanner
+
+dist transaction support
+
+depends on true time, 200ms clock drift globally
+
+
+
+
+# Reading/Books
 
 ## Optionality 
 
 Optionality = the right but not the obligation to take action.
 
 Generating better options is more important thaant beinbg a perffect decision-maker.
-
+ 
 We should think of tradeoffs as the enemy: then are massinvely time-cincuming;, and they make ud unhappy... we want to /make asa fee as we can get away with.
 
 So the question if not what to cut. Our starting point is thta everything gets cut, and has to earn its way back into ciniseradriotn,
@@ -595,6 +1050,8 @@ mapping (address => mapping (address => uint256)) public allowed;
 2) approve and transfer - two transaction
 
 
+# Crypto
+
 ## Buildspace Solana project
 
 program: 
@@ -670,298 +1127,185 @@ solana address
 
     airdrop sol 
     
-    ```bash
+```bash
 
 solana airdrop 5 93SAmhpBneKq6UybsFbn5gf9kzAcooCz732bGaGiBehg  --url https://api.devnet.solana.com
 
 ```
 
-# React
-
-https://scrimba.com/learn/learnreact
 
 
-global var ReactDOM
+# Oauth
 
-```javascript
+https://www.oauth.com/
 
-ReactDOM.render(<h1>Hello</h1>, document.getElementById("root"))
+Used for integrating applictions with other services.
 
-```
+Important ! register redirect url's immediately.
 
-## Components
+Redirection attack where a access token can be interpreted by an attacker. 
 
-Pascal case component, not camel case
-
-Wrap it in angle brackets in ReactDOM.render()
-
-Components can have parent child relationship
-
-```javascript
-
-function Navbar() {
-    return (
-       <div></div> 
-    )
-}
-
-function MainContent() {
-    return (
-        <div></div>
-    )
-}
-
-ReactDOM.render(
-    <div>
-        <Navbar />
-        <MainContent />
-    </div>,
-    document.getElementById("root")
-)
+Dont register multiple redirect url's to compensate for starting from multiple states in the app. Instead use the state parameter.
 
 
+
+
+# JWT "jot"
+
+https://datatracker.ietf.org/doc/html/rfc7519
+
+https://www.bezkoder.com/jwt-json-web-token/
+
+https://www.bezkoder.com/react-express-authentication-jwt/
+
+https://blog.galmalachi.com/react-nodejs-and-jwt-authentication-the-right-way
+
+https://jwt.io/introduction/
+
+JWT is typically in header
+
+```http
+x-access-token: [header].[payload].[signature]
 
 ```
 
+## Security
+
+*** USE HTTPS ***
+
+JWT does NOT secure your data. JWT does not hide, obscure, secure data at all.
+
+The purpose of JWT is to prove that the data is generated by an authentic source.
+
+So, what if there is a Man-in-the-middle attack that can get JWT, then decode user information? Yes, that is possible, so always make sure that your application has the HTTPS encryption.
 
 
-## JSX
-
-Like html with some differences.
-
-    html => JSX 
-
-    class => className
-    
-    
-## organization
-
-create a react project
-
-```javascript
-
-npx create-react-app hello
-
-```
-
-Use import and export from ES6
-
-## Props
-
-Use mustache syntax
+## Basic Flow
 
 
-```javascript
+Browser                     Server
+1) send login(usr,pw) =>    
+                            2) create JWT with secret
+                            3) <= return JWT
+4)  send request with JWT 
+    in header =>
+                            5) validate JWT
+                            6) <= return response
 
-import React from "react"
-import ReactDOM from "react-dom"
 
-function App() {
-    const userName = "me"
-    
-    return (
-        <h1>Hello {userName} !</h1>
-    )
-}
+## Storing JWT on the client side
 
-ReactDOM.render(<App />, document.getElementById("root"))
+- Browser: Local Storage
 
-```
+- IOS: Keychain
 
-```javascript
+- Android: SharedPreferences
 
-// Somewhat bogus example
+## JWT Token
 
-export default function Contact(props) {
-    return (
-        <div className="contact-card">
-            <img src={props.image}/>
-            <h3>{props.name}</h3>
-            <div className="info-group">
-                <p>{props.phone}</p>
-            </div>
-            <div className="info-group">
-                <img src="./images/mail-icon.png" />
-                <p>{props.email}</p>
-            </div>
-        </div>
-    )
-}
+- Header
 
-function App() {
-    return (
-        <div className="contacts">
-            <Contact 
-                image="./images/mr-whiskerson.png" 
-                name="Mr. Whiskerson"
-                phone="(212) 555-1234"
-                email="mr.whiskaz@catnap.meow"
-            />
-            <Contact 
-                img="./images/fluffykins.png"
-                name="Fluffykins"
-                phone="(212) 555-2345"
-                email="fluff@me.com"
-            />
-        </div>
-    )
+- Payload
+
+- Signature
+
+### Header
+
+```json
+{
+    "typ": "JWT",
+    "alg": "HS256"
 }
 
 ```
 
-## Props and arrays
+### Payload
 
-```javascript
+What is stored in the token
 
-// contrived example from scrimba
+#### Standard fields
 
-jokesData = [
-    {
-        setup: "I got my daughter a fridge for her birthday.",
-        punchline: "I can't wait to see her face light up when she opens it."
-    },
-    {
-        setup: "How did the hacker escape the police?",
-        punchline: "He just ransomware!"
-    }
-]
+- iss: issuer
 
-export default function Joke(props) {
-    return (
-        <div>
-            {props.setup && <h3>Setup: {props.setup}</h3>}
-            <p>Punchline: {props.punchline}</p>
-            <hr />
-        </div>
-    )
-}
+- iat: time issued
 
-export default function App() {
-    const jokeElements = jokesData.map(joke => {
-        return <Joke setup={joke.setup} punchline={joke.punchline} />
-    })
-    return (
-        <div>
-            {jokeElements}
-        </div>
-    )
+- exp: expiration
+
+```json
+
+{
+  "userId": "some user",
+  "username": "anon",
+  "email": "anon@anon.io",
+  // standard fields
+  "iss": "zKoder, author of bezkoder.com",
+  "iat": 1570238918,
+  "exp": 1570238992
 }
 
 ```
 
+### Signature
 
-## Events
+```js
 
-Do not use the "()" for function call in the JSX
+const data = Base64UrlEncode(header) + '.' + Base64UrlEncode(payload);
 
-```javascript
+const hashedData = Hash(data, secret);
 
-import React from "react"
-
-export default function App() {
-    function handleClick() {
-        console.log("I was clicked!")
-    }
-    
-    function handleOnMouseOver() {
-        console.log("MouseOver")
-    }
-    
-    return (
-        <div className="container">
-            <img 
-                src="https://picsum.photos/640/360" 
-                onMouseOver={handleOnMouseOver} 
-            />
-            <button onClick={handleClick}>Click me</button>
-        </div>
-    )
-}
+const signature = Base64UrlEncode(hashedData);
 
 
 ```
 
-## State 
+## JWT + Node + Express + MySQL
 
-React.useState()
+https://www.bezkoder.com/node-js-jwt-authentication-mysql/
 
-```javascript
+### Signup and Login flow
 
-const [someval,setterFunc] = React.useState(someInitVal)
+User Registration
 
-```
+POST api/auth/signup        =>      Check and sve user to db
 
+                            <=      Register successfully message
 
-## useEffects
+User Login
 
-used for side effects ie API calls
+POST api/suth/sigin         =>      Authenticate
 
+                            <=      Create JWT string with secret
+                                    return {token, user info, authorities}
 
-# react-three-fiber
+Access Resource
 
+JWT on x-access-token       =>      Check JWT signature, get user info and authenticate 
+header
 
-https://github.com/pmndrs/react-three-fiber
-
-https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
-
-## Basics
-
-scene -> camera -> renderer -> attach to canvas
-
-geometry -> mesh -> scene.add()
-
-frustum - A frustum is the name of a 3d shape that is like a pyramid with the tip sliced off. In other words think of the word "frustum" as another 3D shape like sphere, cube, prism, frustum.
-
-mesh = geometry + material + orientation
+                            <=      return content based in authorization
 
 
-Example set camera width to canvas 
+### JWT Refresh flow
 
-```javascript
+User Login
 
-    function render(time) {
-      time *= 0.001;
-     
-      const canvas = renderer.domElement;
-      camera.aspect = canvas.clientWidth / canvas.clientHeight;
-      camera.updateProjectionMatrix();
-     
-      ...
+POST api/suth/sigin         =>      Authenticate
 
-```
+                            <=      Create JWT string with secret
+                                    return {token, *refreshToken, user info, authorities}
 
+Access Resources with Expired Token
 
-### Create app
-```bash
-npx create-react-app my-app
-cd my-app
-```
+Request data with JWT       =>      Validate and throw TokenExpiredError
+in the header
 
-### Install dependencies
-```bash
-npm install three @react-three/fiber
-
-npm install --save husky lint-staged prettier
-```
-
-### Start
-```bash
-npm run start
-```
+                            <=      Return Token Expired message
 
 
-# Node.js
 
-## cheatsheet
+Token Refresh
 
-```bash
-
-# initialize minimum node project with a minimal package.json
-npm init -y 
-
-# install a package 
-npm i <some package> 
-npm i express 
-
-```
+POST api/auth/refreshToken  =>      Verify Refresh Token
+        
+                            <=      return {new token, resfreshToken}
 
